@@ -21,6 +21,20 @@ public class OrderItem {
      */
     private BigDecimal subTotal;
 
+    public OrderItem() {
+        amount = BigDecimal.ZERO;
+        subTotal = BigDecimal.ZERO;
+    }
+
+    /**
+     * 新增商品
+     * @param product
+     */
+    public void addProduct(Product product) {
+        amount = amount.add(new BigDecimal(1));
+        subTotal = subTotal.add(product.getPrice());
+        this.product = product;
+    }
 
     public Product getProduct() {
         return product;

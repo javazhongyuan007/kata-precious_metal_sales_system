@@ -3,6 +3,7 @@ package com.coding.sales.product;
 import com.coding.sales.discount.Discount;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class Product {
     /**
      * 商品活动
      */
-    private List<Discount> discounts;
+    private List<Discount> discounts = new ArrayList<Discount>();
 
     public String getProductName() {
         return productName;

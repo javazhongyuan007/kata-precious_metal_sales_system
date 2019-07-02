@@ -12,7 +12,8 @@ public class Payment {
      * @return
      */
     public boolean payment(){
-        throw new RuntimeException("调用支付系统失败！");
+//        throw new RuntimeException("调用支付系统失败！");
+        return true;
     }
 
     public String getType() {

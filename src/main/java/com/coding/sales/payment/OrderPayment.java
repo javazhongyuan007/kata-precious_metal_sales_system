@@ -1,7 +1,10 @@
 package com.coding.sales.payment;
 
+import com.coding.sales.member.MemberType;
 import com.coding.sales.order.Order;
 import com.coding.sales.order.OrderStatus;
+
+import java.math.BigDecimal;
 
 /**
  * 订单付款
@@ -14,6 +17,11 @@ public class OrderPayment {
     private Order order;
 
     private Payment payment;
+
+    public OrderPayment(Order order, Payment payment) {
+        this.order = order;
+        this.payment = payment;
+    }
 
     /**
      * 付款
@@ -31,6 +39,7 @@ public class OrderPayment {
         }
         payment.payment();
         order.setOrderStatus(OrderStatus.PaymentCompleted);
+        order.getMember().addPoints(payment.getAmount().multiply(order.getMember().getNewMemberType().getTime()).setScale(0, BigDecimal.ROUND_DOWN).intValue());
         return true;
     }
 

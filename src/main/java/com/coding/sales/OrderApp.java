@@ -13,6 +13,7 @@ import com.coding.sales.output.DiscountItemRepresentation;
 import com.coding.sales.output.OrderItemRepresentation;
 import com.coding.sales.output.OrderRepresentation;
 import com.coding.sales.output.PaymentRepresentation;
+import com.coding.sales.payment.OrderPayment;
 import com.coding.sales.payment.Payment;
 import com.coding.sales.product.Product;
 
@@ -76,7 +77,8 @@ public class OrderApp {
             payment.setType(paymentCommand.getType());
             payment.setAmount(paymentCommand.getAmount());
         }
-
+        OrderPayment orderPayment = new OrderPayment( order, payment);
+        orderPayment.payment();
         List<OrderItemRepresentation> orderItemsReturn = new ArrayList<OrderItemRepresentation>();
         for (OrderItem orderItem : order.getOrderItems()) {
             OrderItemRepresentation orderItemRepresentation = new OrderItemRepresentation(orderItem.getProduct().getProductNo(), orderItem.getProduct().getProductName(), orderItem.getProduct().getPrice(), orderItem.getAmount(), orderItem.getSubTotal());

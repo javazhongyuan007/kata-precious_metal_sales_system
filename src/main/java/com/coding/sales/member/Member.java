@@ -2,10 +2,11 @@ package com.coding.sales.member;
 
 import com.coding.sales.discount.DiscountCard;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Member {
-
     private String memberNo;
     private String memberName;
     private MemberType oldMemberType;

@@ -22,7 +22,7 @@ public class InstantRebate extends AbstractDiscont {
     @Override
     public BigDecimal discount(OrderItem orderItem) {
         if (orderItem == null) {
-            return BigDecimal.ZERO;
+            return BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         BigDecimal subTotal = orderItem.getSubTotal() == null ? BigDecimal.ZERO : orderItem.getSubTotal();
         BigDecimal instantRebateMoney = BigDecimal.ZERO;

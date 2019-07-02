@@ -12,7 +12,7 @@ public class GiftWithPurchaseHalfOff extends AbstractDiscont {
     @Override
     public BigDecimal discount(OrderItem orderItem) {
         if (null == orderItem) {
-            return BigDecimal.ZERO;
+            return BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         BigDecimal amount = orderItem.getAmount() == null ? BigDecimal.ZERO : orderItem.getAmount();
         BigDecimal threeItem = new BigDecimal(3);
@@ -20,6 +20,6 @@ public class GiftWithPurchaseHalfOff extends AbstractDiscont {
             BigDecimal price = orderItem.getProduct().getPrice() == null ? BigDecimal.ZERO : orderItem.getProduct().getPrice();
             return price.divide(new BigDecimal(2)).setScale(2, BigDecimal.ROUND_HALF_UP);
         }
-        return BigDecimal.ZERO;
+        return BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 }

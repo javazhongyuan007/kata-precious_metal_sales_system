@@ -7,7 +7,10 @@ public class DiscountCard {
     private BigDecimal DiscountRate;
     private String DiscountName;
 
-
+    public DiscountCard(String discountName,BigDecimal discountRate) {
+        DiscountRate = discountRate;
+        DiscountName = discountName;
+    }
 
 
     public BigDecimal getDiscountRate() {

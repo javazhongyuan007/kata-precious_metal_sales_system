@@ -62,23 +62,21 @@ public class OrderApp {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        List<String> discounts = command.getDiscounts();
+        order.setCoupons(discounts);
         order.setMember(MembersData.memberMap.get(command.getMemberId()));
         List<OrderItemCommand> items = command.getItems();
         List<PaymentCommand> payments = command.getPayments();
-        List<String> discounts = command.getDiscounts();
         List<OrderItem> orderItems = order.getOrderItems();
         for (OrderItemCommand item : items) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.addProduct(ProductData.productMap.get(item.getProduct()));
-            orderItems.add(orderItem);
+            order.addProduct(ProductData.productMap.get(item.getProduct()));
         }
-        order.setOrderItems(orderItems);
         Payment payment = new Payment();
         for (PaymentCommand paymentCommand : payments) {
             payment.setType(paymentCommand.getType());
             payment.setAmount(paymentCommand.getAmount());
         }
-        order.setCoupons(discounts);
+
         List<OrderItemRepresentation> orderItemsReturn = new ArrayList<OrderItemRepresentation>();
         for (OrderItem orderItem : order.getOrderItems()) {
             OrderItemRepresentation orderItemRepresentation = new OrderItemRepresentation(orderItem.getProduct().getProductNo(), orderItem.getProduct().getProductName(), orderItem.getProduct().getPrice(), orderItem.getAmount(), orderItem.getSubTotal());

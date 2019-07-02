@@ -134,19 +134,20 @@ public class Order {
             if (discount != null) {
                 int couponSize = 0;
                 for (String coupon : coupons) {
-                    if (!coupon.equals(discount.getDiscountCard().getDiscountName())) {
+                    if (null != discount.getDiscountCard() && !coupon.equals(discount.getDiscountCard().getDiscountName())) {
                         couponSize += 1;
                     }
                 }
                 if (couponSize == coupons.size()) {
                     continue;
                 }
+                tempDiscountMoney = discount.discount(orderItem);
+                if (tempDiscountMoney.compareTo(discountMoney) > 0) {
+                    discountMoney = tempDiscountMoney;
+                    discountItem.setDiscountCard(discount.getDiscountCard());
+                }
             }
-            tempDiscountMoney = discount.discount(orderItem);
-            if (tempDiscountMoney.compareTo(discountMoney) > 0) {
-                discountMoney = tempDiscountMoney;
-                discountItem.setDiscountCard(discount.getDiscountCard());
-            }
+
         }
         discountItem.setProduct(orderItem.getProduct());
         discountItem.setDiscount(discountMoney);

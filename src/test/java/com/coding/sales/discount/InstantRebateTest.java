@@ -12,7 +12,7 @@ public class InstantRebateTest {
 
     @Test
     public void should_return_350_when_full_3000() {
-        Discount discount = new InstantRebate();
+        Discount discount = new InstantRebate(new BigDecimal(350), new BigDecimal(3000));
         OrderItem orderItem = new OrderItem();
         Product product = new Product();
         product.setProductNo("0001");
@@ -43,7 +43,7 @@ public class InstantRebateTest {
 
     @Test
     public void should_return_350_when_full_4000() {
-        Discount discount = new InstantRebate();
+        Discount discount = new InstantRebate(new BigDecimal(350), new BigDecimal(4000));
         OrderItem orderItem = new OrderItem();
         Product product = new Product();
         product.setProductNo("0001");
@@ -80,7 +80,7 @@ public class InstantRebateTest {
 
     @Test
     public void should_return_30_when_full_2000() {
-        Discount discount = new InstantRebate();
+        Discount discount = new InstantRebate(new BigDecimal(30), new BigDecimal(2000));
         OrderItem orderItem = new OrderItem();
         Product product = new Product();
         product.setProductNo("0001");
@@ -99,7 +99,7 @@ public class InstantRebateTest {
 
     @Test
     public void should_return_10_when_full_1000() {
-        Discount discount = new InstantRebate();
+        Discount discount = new InstantRebate(new BigDecimal(10), new BigDecimal(1000));
         OrderItem orderItem = new OrderItem();
         Product product = new Product();
         product.setProductNo("0001");
@@ -112,7 +112,7 @@ public class InstantRebateTest {
 
     @Test
     public void should_return_0_when_not_full_1000() {
-        Discount discount = new InstantRebate();
+        Discount discount = new InstantRebate(new BigDecimal(0), new BigDecimal(1000));
         OrderItem orderItem = new OrderItem();
         Product product = new Product();
         product.setProductNo("0001");

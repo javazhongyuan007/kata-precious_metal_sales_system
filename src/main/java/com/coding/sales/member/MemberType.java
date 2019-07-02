@@ -8,8 +8,8 @@ public enum MemberType {
 
         General("普卡",0,new BigDecimal(1.0)),
         Gold("金卡",10000,new BigDecimal(1.5)),
-        Platinum("白金卡",500000,new BigDecimal(1.8)),
-        Diamond("钻石卡",1000000,new BigDecimal(2));
+        Platinum("白金卡",50000,new BigDecimal(1.8)),
+        Diamond("钻石卡",100000,new BigDecimal(2));
 
         private String name;
         private int point;

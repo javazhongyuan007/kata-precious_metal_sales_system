@@ -2,16 +2,18 @@ package com.coding.sales.member;
 
 import com.sun.tools.javac.comp.Check;
 
+import java.math.BigDecimal;
+
 public enum MemberType {
 
-        General("普卡",0,1.0),
-        Gold("金卡",10000,1.5),
-        Platinum("白金卡",500000,1.8),
-        Diamond("钻石卡",1000000,2.0);
+        General("普卡",0,new BigDecimal(1.0)),
+        Gold("金卡",10000,new BigDecimal(1.5)),
+        Platinum("白金卡",500000,new BigDecimal(1.8)),
+        Diamond("钻石卡",1000000,new BigDecimal(2));
 
         private String name;
         private int point;
-        private double times;
+        private BigDecimal times;
 
         public String getName() {
                 return name;
@@ -29,16 +31,16 @@ public enum MemberType {
                 this.point = point;
         }
 
-        public double getTime() {
+        public BigDecimal getTime() {
                 return times;
         }
 
-        public void setTime(double time) {
+        public void setTime(BigDecimal time) {
                 this.times = time;
         }
 
 
-        private MemberType(String name,int point,double times){
+        private MemberType(String name,int point,BigDecimal times){
                 this.name = name;
                 this.point = point;
                 this.times = times;

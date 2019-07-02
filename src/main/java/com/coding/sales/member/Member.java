@@ -1,7 +1,9 @@
 package com.coding.sales.member;
 
+import com.coding.sales.discount.DiscountCard;
 import sun.tools.tree.IfStatement;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -13,6 +15,7 @@ public class Member {
     private MemberType newMemberType;
     private int memberPointsIncreased;
     private int memberPoints;
+    private List<DiscountCard> discountCards;
     private Map<String,Integer> memberTypePoint;
 
     public Member(){

@@ -1,7 +1,5 @@
 package com.coding.sales.member;
 
-import com.sun.tools.javac.comp.Check;
-
 import java.math.BigDecimal;
 
 public enum MemberType {

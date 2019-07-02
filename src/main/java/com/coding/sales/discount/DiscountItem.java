@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 /**
  * 优惠明细
  */
-public class DisCountItem {
+public class DiscountItem {
     /**
      * 优惠商品
      */
@@ -16,6 +16,10 @@ public class DisCountItem {
      * 优惠金额
      */
     private BigDecimal discount;
+    /**
+     * 折扣卡
+     */
+    private DiscountCard discountCard;
 
     public Product getProduct() {
         return product;
@@ -31,5 +35,13 @@ public class DisCountItem {
 
     public void setDiscount(BigDecimal discount) {
         this.discount = discount;
+    }
+
+    public DiscountCard getDiscountCard() {
+        return discountCard;
+    }
+
+    public void setDiscountCard(DiscountCard discountCard) {
+        this.discountCard = discountCard;
     }
 }

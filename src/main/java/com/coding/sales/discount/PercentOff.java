@@ -34,12 +34,12 @@ public class PercentOff implements Discount {
     @Override
     public BigDecimal discount(OrderItem orderItem) {
         if (null == orderItem) {
-            return BigDecimal.ZERO;
+            return BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         Product product = orderItem.getProduct();
         BigDecimal amount = orderItem.getAmount() == null ? BigDecimal.ZERO : orderItem.getAmount();
         if (null == product) {
-            return BigDecimal.ZERO;
+            return BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         BigDecimal price = product.getPrice() == null ? BigDecimal.ZERO : product.getPrice();
         BigDecimal rate = new BigDecimal(1).subtract(discountCard.getDiscountRate());

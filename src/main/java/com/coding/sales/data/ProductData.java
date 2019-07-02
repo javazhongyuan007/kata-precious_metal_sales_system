@@ -1,0 +1,86 @@
+package com.coding.sales.data;
+
+import com.coding.sales.discount.*;
+import com.coding.sales.product.Product;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class ProductData {
+    public static Map<String, Product> productMap = new HashMap<String, Product>();
+    static{
+        Product product1 = new Product();
+        product1.setPrice(new BigDecimal(998.00));
+        product1.setUnit("册");
+        product1.setProductName("世园会五十国钱币册");
+        product1.setProductNo("001001");
+        List<Discount> discounts1 = new ArrayList<Discount>();
+        discounts1.add(null);
+        product1.setDiscounts(discounts1);
+        productMap.put(product1.getProductNo(), product1);
+        Product product2 = new Product();
+        product2.setPrice(new BigDecimal(1380.00));
+        product2.setUnit("盒");
+        product2.setProductName("2019北京世园会纪念银章大全40g");
+        product2.setProductNo("001002");
+        List<Discount> discounts2 = new ArrayList<Discount>();
+        discounts2.add(new PercentOff(new DiscountCard("9折券", new BigDecimal(0.90))));
+        product2.setDiscounts(discounts2);
+        productMap.put(product2.getProductNo(), product2);
+        Product product3 = new Product();
+        product3.setPrice(new BigDecimal(1580.00));
+        product3.setUnit("条");
+        product3.setProductName("招财进宝");
+        product3.setProductNo("003001");
+        List<Discount> discounts3 = new ArrayList<Discount>();
+        discounts3.add(new PercentOff(new DiscountCard("95折券", new BigDecimal(0.95))));
+        product3.setDiscounts(discounts3);
+        productMap.put(product3.getProductNo(), product3);
+        Product product4 = new Product();
+        product4.setPrice(new BigDecimal(998.00));
+        product4.setUnit("条");
+        product4.setProductName("水晶之恋");
+        product4.setProductNo("003002");
+        List<Discount> discounts4 = new ArrayList<Discount>();
+        discounts4.add(new GiftWithPurchaseHalfOff());
+        discounts4.add(new GiftWithPurchaseOne());
+        product4.setDiscounts(discounts4);
+        productMap.put(product4.getProductNo(), product4);
+        Product product5 = new Product();
+        product5.setPrice(new BigDecimal(998.00));
+        product5.setUnit("套");
+        product5.setProductName("中国经典钱币套装");
+        product5.setProductNo("002002");
+        List<Discount> discounts5 = new ArrayList<Discount>();
+        discounts5.add(new InstantRebate(new BigDecimal(30), new BigDecimal(2000)));
+        discounts5.add(new InstantRebate(new BigDecimal(10), new BigDecimal(1000)));
+        product5.setDiscounts(discounts5);
+        productMap.put(product5.getProductNo(), product5);
+        Product product6 = new Product();
+        product6.setPrice(new BigDecimal(1080.00));
+        product6.setUnit("条");
+        product6.setProductName("守扩之羽比翼双飞4.8g");
+        product6.setProductNo("002001");
+        List<Discount> discounts6 = new ArrayList<Discount>();
+        discounts6.add(new GiftWithPurchaseHalfOff());
+        discounts6.add(new GiftWithPurchaseOne());
+        discounts6.add(new PercentOff(new DiscountCard("95折券", new BigDecimal(0.95))));
+        product6.setDiscounts(discounts6);
+        productMap.put(product6.getProductNo(), product6);
+        Product product7 = new Product();
+        product7.setPrice(new BigDecimal(698.00));
+        product7.setUnit("套");
+        product7.setProductName("中国银象棋12g");
+        product7.setProductNo("002003");
+        List<Discount> discounts7 = new ArrayList<Discount>();
+        discounts7.add(new InstantRebate(new BigDecimal(350), new BigDecimal(3000)));
+        discounts7.add(new InstantRebate(new BigDecimal(30), new BigDecimal(2000)));
+        discounts7.add(new InstantRebate(new BigDecimal(10), new BigDecimal(1000)));
+        discounts7.add(new PercentOff(new DiscountCard("9折券", new BigDecimal(0.90))));
+        product7.setDiscounts(discounts7);
+        productMap.put(product7.getProductNo(), product7);
+    }
+}

@@ -49,6 +49,16 @@ public class Order {
     private BigDecimal receivables;
 
     /**
+     * 订单状态
+     */
+    private OrderStatus orderStatus;
+
+    /**
+     * 优惠券
+     */
+    private List<String> coupons;
+
+    /**
      * 新增商品
      * @param product
      */
@@ -80,7 +90,7 @@ public class Order {
         // 获取该产品的优惠信息
         int addDiscountItemIndex = 0;
         for (DiscountItem disCountItem : discountItems) {
-            if (disCountItem.getProduct().getProductNo().equalsIgnoreCase(product.getProductNo())) {
+            if (disCountItem.getProduct().getProductNo().equals(product.getProductNo())) {
                 break;
             }
             addDiscountItemIndex += 1;
@@ -91,6 +101,24 @@ public class Order {
         } else {
             discountItems.set(addDiscountItemIndex, getDiscountMoney(tempOrderItem));
         }
+
+        // 订单总金额处理
+        totalPrice = BigDecimal.ZERO;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice = totalPrice.add(orderItem.getAmount().multiply(orderItem.getProduct().getPrice()));
+        }
+        totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+        // 优惠总金额处理
+        totalDiscountPrice = BigDecimal.ZERO;
+        for (DiscountItem disCountItem : discountItems) {
+            totalDiscountPrice = totalDiscountPrice.add(disCountItem.getDiscount());
+        }
+        totalDiscountPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+        // 应收总金额处理
+        receivables = totalPrice.subtract(totalDiscountPrice);
+        receivables.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
@@ -103,6 +131,17 @@ public class Order {
         BigDecimal discountMoney = BigDecimal.ZERO;
         BigDecimal tempDiscountMoney = BigDecimal.ZERO;
         for (Discount discount : orderItem.getProduct().getDiscounts()) {
+            if (discount != null) {
+                int couponSize = 0;
+                for (String coupon : coupons) {
+                    if (!coupon.equals(discount.getDiscountCard().getDiscountName())) {
+                        couponSize += 1;
+                    }
+                }
+                if (couponSize == coupons.size()) {
+                    continue;
+                }
+            }
             tempDiscountMoney = discount.discount(orderItem);
             if (tempDiscountMoney.compareTo(discountMoney) > 0) {
                 discountMoney = tempDiscountMoney;
@@ -176,5 +215,21 @@ public class Order {
 
     public void setReceivables(BigDecimal receivables) {
         this.receivables = receivables;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public List<String> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<String> coupons) {
+        this.coupons = coupons;
     }
 }

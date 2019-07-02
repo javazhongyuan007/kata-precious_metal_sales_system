@@ -11,13 +11,19 @@ import java.util.Map;
  */
 public class InstantRebate extends AbstractDiscont {
 
-    private Map<BigDecimal, BigDecimal> instantRebateMap = new HashMap<BigDecimal, BigDecimal>();
-    {
-        instantRebateMap.put(new BigDecimal(3000.00), new BigDecimal(350.00));
-        instantRebateMap.put(new BigDecimal(2000.00), new BigDecimal(30.00));
-        instantRebateMap.put(new BigDecimal(1000.00), new BigDecimal(10.00));
-    }
+    private BigDecimal instantRebateMoney;
+    private BigDecimal totalMoney;
 
+    public InstantRebate(BigDecimal instantRebateMoney, BigDecimal totalMoney) {
+        if (null == instantRebateMoney) {
+            throw new RuntimeException("满减金额有误");
+        }
+        if (null == totalMoney) {
+            throw new RuntimeException("满减阈值金额有误");
+        }
+        this.instantRebateMoney = instantRebateMoney;
+        this.totalMoney = totalMoney;
+    }
 
     @Override
     public BigDecimal discount(OrderItem orderItem) {
@@ -25,16 +31,10 @@ public class InstantRebate extends AbstractDiscont {
             return BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         BigDecimal subTotal = orderItem.getSubTotal() == null ? BigDecimal.ZERO : orderItem.getSubTotal();
-        BigDecimal instantRebateMoney = BigDecimal.ZERO;
         BigDecimal temp = BigDecimal.ZERO;
-        for (BigDecimal decimal : instantRebateMap.keySet()) {
-            if (subTotal.compareTo(decimal) > 0) {
-                temp = instantRebateMap.get(decimal);
-                if (temp.compareTo(instantRebateMoney) > 0) {
-                    instantRebateMoney = temp;
-                }
-            }
+        if (subTotal.compareTo(totalMoney) >= 0) {
+            return instantRebateMoney.setScale(2,  BigDecimal.ROUND_HALF_UP);
         }
-        return instantRebateMoney.setScale(2,  BigDecimal.ROUND_HALF_UP);
+        return BigDecimal.ZERO.setScale(2,  BigDecimal.ROUND_HALF_UP);
     }
 }

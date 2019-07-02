@@ -1,7 +1,27 @@
 package com.coding.sales;
 
+import com.coding.sales.data.MembersData;
+import com.coding.sales.data.ProductData;
+import com.coding.sales.discount.DiscountItem;
 import com.coding.sales.input.OrderCommand;
+import com.coding.sales.input.OrderItemCommand;
+import com.coding.sales.input.PaymentCommand;
+import com.coding.sales.member.Member;
+import com.coding.sales.order.Order;
+import com.coding.sales.order.OrderItem;
+import com.coding.sales.output.DiscountItemRepresentation;
+import com.coding.sales.output.OrderItemRepresentation;
 import com.coding.sales.output.OrderRepresentation;
+import com.coding.sales.output.PaymentRepresentation;
+import com.coding.sales.payment.Payment;
+import com.coding.sales.product.Product;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 销售系统的主入口
@@ -26,15 +46,56 @@ public class OrderApp {
     public String checkout(String orderCommand) {
         OrderCommand command = OrderCommand.from(orderCommand);
         OrderRepresentation result = checkout(command);
-        
+
         return result.toString();
     }
 
     OrderRepresentation checkout(OrderCommand command) {
         OrderRepresentation result = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        //TODO: 请完成需求指定的功能
+        //1.转换 OrderCommand 为订单类
+        Order order = new Order();
+        order.setOrderId(command.getOrderId());
+        try {
+            order.setCreateTime(dateFormat.parse(command.getCreateTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        order.setMember(MembersData.memberMap.get(command.getMemberId()));
+        List<OrderItemCommand> items = command.getItems();
+        List<PaymentCommand> payments = command.getPayments();
+        List<String> discounts = command.getDiscounts();
+        List<OrderItem> orderItems = order.getOrderItems();
+        for (OrderItemCommand item : items) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.addProduct(ProductData.productMap.get(item.getProduct()));
+            orderItems.add(orderItem);
+        }
+        order.setOrderItems(orderItems);
+        Payment payment = new Payment();
+        for (PaymentCommand paymentCommand : payments) {
+            payment.setType(paymentCommand.getType());
+            payment.setAmount(paymentCommand.getAmount());
+        }
+        order.setCoupons(discounts);
+        List<OrderItemRepresentation> orderItemsReturn = new ArrayList<OrderItemRepresentation>();
+        for (OrderItem orderItem : order.getOrderItems()) {
+            OrderItemRepresentation orderItemRepresentation = new OrderItemRepresentation(orderItem.getProduct().getProductNo(), orderItem.getProduct().getProductName(), orderItem.getProduct().getPrice(), orderItem.getAmount(), orderItem.getSubTotal());
+            orderItemsReturn.add(orderItemRepresentation);
+        }
+        List<DiscountItemRepresentation> discountsReturn = new ArrayList<DiscountItemRepresentation>();
+        for (DiscountItem discountItem : order.getDiscountItems()) {
+            DiscountItemRepresentation discountItemRepresentation = new DiscountItemRepresentation(discountItem.getProduct().getProductNo(), discountItem.getProduct().getProductName(), discountItem.getDiscount());
+            discountsReturn.add(discountItemRepresentation);
+        }
 
+        List<PaymentRepresentation> paymentsReturn = new ArrayList<PaymentRepresentation>();
+        PaymentRepresentation paymentRepresentation = new PaymentRepresentation(payment.getType(), payment.getAmount());
+        paymentsReturn.add(paymentRepresentation);
+        result = new OrderRepresentation(order.getOrderId(), order.getCreateTime(), order.getMember().getMemberNo(), order.getMember().getMemberName(), order.getMember().getOldMemberType().getName(), order.getMember().getNewMemberType().getName(), order.getMember().getMemberPointsIncreased(), order.getMember().getMemberPoints(),
+                orderItemsReturn, order.getTotalPrice(), discountsReturn, order.getTotalDiscountPrice(),
+                order.getReceivables(), paymentsReturn, order.getCoupons());
         return result;
     }
 }

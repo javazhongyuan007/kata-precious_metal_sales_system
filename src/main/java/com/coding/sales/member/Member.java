@@ -1,24 +1,40 @@
 package com.coding.sales.member;
 
+import sun.tools.tree.IfStatement;
+
+import java.util.Map;
 import java.util.logging.Level;
 
 public class Member {
 
-    private MemberCard memberCard;
-    private Integer points;
+    private String memberNo;
+    private String memberName;
+    private MemberType oldMemberType;
+    private MemberType newMemberType;
+    private int memberPointsIncreased;
+    private int memberPoints;
+    private Map<String,Integer> memberTypePoint;
 
     public Member(){
-        this.memberCard = MemberCard.General;
-        this.points = 0;
+        this.oldMemberType = MemberType.General;
+        this.newMemberType = MemberType.General;
+        this.memberPoints = 0;
     }
 
-    public Integer addPoints( Integer newPoint){
-        this.points += newPoint;
-        LevelUp(this.points);
-        return this.points;
+    public void addPoints( int memberPointsIncreased){
+        this.memberPointsIncreased = memberPointsIncreased;
+        this.memberPoints += memberPointsIncreased;
+        checkLevel();
     }
 
-    public void LevelUp(Integer points){
-
+    public void checkLevel(){
+        this.oldMemberType = this.newMemberType;
+        MemberType [] memberTypes = MemberType.values();
+        for (int i = memberTypes.length-1;i>=0;i--){
+            if (this.memberPoints>=memberTypes[i].getPoint()){
+                this.newMemberType = memberTypes[i];
+                return;
+            }
+        }
     }
 }

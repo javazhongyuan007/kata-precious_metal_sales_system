@@ -70,7 +70,9 @@ public class OrderApp {
         List<PaymentCommand> payments = command.getPayments();
         List<OrderItem> orderItems = order.getOrderItems();
         for (OrderItemCommand item : items) {
-            order.addProduct(ProductData.productMap.get(item.getProduct()));
+            for (int i = 0; i < item.getAmount().setScale(0, BigDecimal.ROUND_DOWN).intValue(); i++) {
+                order.addProduct(ProductData.productMap.get(item.getProduct()));
+            }
         }
         Payment payment = new Payment();
         for (PaymentCommand paymentCommand : payments) {

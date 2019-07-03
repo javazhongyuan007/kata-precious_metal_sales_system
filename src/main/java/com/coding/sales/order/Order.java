@@ -97,7 +97,9 @@ public class Order {
         }
         //
         if (addDiscountItemIndex >= discountItems.size()) {
-            discountItems.add(getDiscountMoney(tempOrderItem));
+            if(BigDecimal.ZERO.compareTo(getDiscountMoney(tempOrderItem).getDiscount()) < 0) {
+                discountItems.add(getDiscountMoney(tempOrderItem));
+            }
         } else {
             discountItems.set(addDiscountItemIndex, getDiscountMoney(tempOrderItem));
         }
